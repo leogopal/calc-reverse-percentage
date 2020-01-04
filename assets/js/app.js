@@ -1,4 +1,5 @@
 function calcReversePercent() {
+
     var totalwithpercent = document.getElementById("totalwithpercent").value;
     var percentage = document.getElementById("percentage").value;
 
@@ -8,6 +9,7 @@ function calcReversePercent() {
     document.getElementById("totalBeforePercent").innerHTML = totalBeforePercent;
     document.getElementById("percentValue").innerHTML = percentageAmount;
     document.getElementById("finalTotal").innerHTML = totalwithpercent;
+
 }
 
 
