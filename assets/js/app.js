@@ -3,7 +3,7 @@ function calcReversePercent() {
     var totalwithpercent = document.getElementById("totalwithpercent").value;
     var percentage = document.getElementById("percentage").value;
 
-    var totalBeforePercent =  totalwithpercent / ( (percentage / 100) + 1) ;
+    var totalBeforePercent =  calculateReversePercentage(totalwithpercent, percentage) ;
     var percentageAmount = totalwithpercent - totalBeforePercent;
 
     document.getElementById("totalBeforePercent").innerHTML = totalBeforePercent;
@@ -12,4 +12,10 @@ function calcReversePercent() {
 
 }
 
+function calculateReversePercentage(gross, percent) {
+    return gross / ( (percent / 100) + 1) ;
+}
 
+function calculatePercentageVariance() {
+
+}

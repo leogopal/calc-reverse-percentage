@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Reverse VAT Calculator</title>
+</head>
+<body>
+
+<div class="container" style="padding-top:1em; min-width: 600px;">
+    <div class="row justify-content-md-center">
+        <div class="col-lg-8 col-md-10">
+
+            <h3 class="text-center" style="margin-bottom: 1em;">Reverse VAT Calculator</h3>
+
+            <form id="calc">
+                <div class="form-row">
+
+
+                    <div class="form-group col-md-4 col-sm-4">
+                        <label for="hour-rate">Hour Rate</label>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">USD</div>
+                            </div>
+                            <input type="number" class="form-control" id="hour-rate" v-model="hour_rate"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 col-sm-4">
+                        <label for="extra-percentage">Extra Percentage</label>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" v-model="use_extra"
+                                               id="use-extra">
+                                        <label class="custom-control-label" for="use-extra"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="number" class="form-control" id="extra-percentage" v-model="extra_percentage"
+                                   min="1" max="200"/>
+                            <div class="input-group-append">
+                                <div class="input-group-text">%</div>
+                            </div>
+                        </div>
+
+                        <small class="form-text text-muted">Estimate margin of error %</small>
+                    </div>
+                </div>
+
+                <div class="form-row align-items-start">
+                    <div class="form-group col">
+                        <div class="input-group">
+                            <label for="total-hours">Total Hours</label>
+                            <input type="text" class="form-control" id="total-hours" v-model="total_hours"
+                                   readonly="readonly" v-on:focus="select_all"/>
+                            <div class="input-group-append">
+                                <div class="input-group-text">%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <label>&nbsp;</label>
+                        <input type="text" class="form-control" v-model="total_hours_formatted" readonly="readonly"
+                               v-on:focus="select_all"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="client-fees">Client's Fees</label>
+
+
+                        <input type="text" class="form-control" id="client-fees" :value="client_fees | money_format"
+                               readonly="readonly" v-on:focus="select_all"/>
+                    </div>
+                    <div class="form-group col">
+                        <label for="expert-fees">Expert's Fees</label>
+
+                        <input type="text" class="form-control" id="expert-fees" :value="expert_fees | money_format"
+                               readonly="readonly" v-on:focus="select_all"/>
+                    </div>
+                </div>
+                <div class="form-row align-items-start">
+                    <div class="form-group col-sm-4 col-md-4">
+                        <label for="amount">Estimate Amount</label>
+
+                        <input type="text" class="form-control form-control-lg font-weight-bold" id="amount"
+                               :value="amount | money_format" readonly="readonly" v-on:focus="select_all"
+                               v-on:dblclick="switch_amount_inputs" title="Double-Click to edit"/>
+
+                        <input type="text" class="form-control form-control-lg font-weight-bold d-none" id="amount-edit"
+                               v-on:focus="select_all" v-on:keyup="recalcuate" v-on:focusout="switch_amount_inputs"/>
+
+                        <small class="form-text text-muted">Double-Click to edit</small>
+                    </div>
+                    <div class="form-group col-sm-4 col-md-4">
+                        <label for="client-amount">Client's Amount</label>
+
+                        <input type="text" class="form-control form-control-lg font-weight-bold" id="client-amount"
+                               :value="client_amount | money_format" readonly="readonly" v-on:focus="select_all"/>
+                    </div>
+                    <div class="form-group col-sm-4 col-md-4">
+                        <label for="expert-amount">Expert Amount</label>
+
+                        <input type="text" class="form-control form-control-lg font-weight-bold" id="expert-amount"
+                               :value="expert_amount | money_format" readonly="readonly" v-on:focus="select_all"/>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="assets/js/codeable-calculator.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
