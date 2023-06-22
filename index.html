@@ -1,70 +1,54 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="Helpful Tools">
-        <meta name="author" content="Leo Gopal">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <title>Helpful Tools</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
 
-        <link rel="canonical" href="">
+    <title>Reverse VAT Calculator</title>
+</head>
+<body class="bg-gray-200">
 
-        <!-- Bootstrap core CSS -->
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<div class="container mx-auto py-10 px-4 md:px-0 max-w-3xl">
+    <h2 class="text-3xl font-semibold mb-6">Reverse VAT Calculator</h2>
 
-        <style>
-            .bd-placeholder-img {
-                font-size: 1.125rem;
-                text-anchor: middle;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-            }
-
-            @media (min-width: 768px) {
-                .bd-placeholder-img-lg {
-                    font-size: 3.5rem;
-                }
-            }
-        </style>
-
-        <!-- Custom styles for this template -->
-        <link href="assets/css/cover.css" rel="stylesheet">
-
-    </head>
-    
-    <body class="text-center">
-        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-            <header class="masthead mb-auto">
-                <div class="inner">
-                    <h3 class="masthead-brand">Leo Gopal Tooling</h3>
-
-                </div>
-            </header>
-
-            <main role="main" class="inner cover">
-                <h1 class="cover-heading">Prelude</h1>
-                <p class="lead">
-                    The one who does their job well enough should eventually make themselves redundant, not irreplaceable.
-                </p>
-                <p class="lead">
-                    <a href="estimate-calculator.html" class="btn btn-lg btn-secondary">
-                       Estimate Calc
-                    </a>
-                    <a href="rp-calc.html" class="btn btn-lg btn-secondary">
-                       Reverse Percentage Calc
-                    </a>
-                </p>
-            </main>
-
-            <footer class="mastfoot mt-auto">
-                <div class="inner">
-                    <p>Leo est lux. A Leo Gopal procrastination invention.</p>
-                </div>
-            </footer>
+    <form id="vatForm" class="bg-white p-6 rounded shadow-md">
+        <div class="mb-4">
+            <label for="totalwithvat" class="block mb-2 font-semibold">Value with VAT</label>
+            <input type="number" id="totalwithvat" class="form-input w-full px-3 py-2 rounded border focus:outline-none focus:border-blue-500" required>
         </div>
-    </body>
+
+        <div class="mb-4">
+            <label for="vat" class="block mb-2 font-semibold">VAT Percentage</label>
+            <input type="number" id="vat" class="form-input w-full px-3 py-2 rounded border focus:outline-none focus:border-blue-500" required>
+        </div>
+
+        <button type="submit" class="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600">Calculate</button>
+    </form>
+
+    <div class="mt-8 bg-white p-6 rounded shadow-md">
+        <p class="text-lg mb-2">Value before VAT: <span id="totalBeforeVat"></span></p>
+        <p class="text-lg">VAT Value: <span id="vatValue"></span></p>
+    </div>
+</div>
+
+<script>
+document.getElementById('vatForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var totalwithvat = document.getElementById('totalwithvat').value;
+    var vat = document.getElementById('vat').value;
+
+    var totalBeforeVat = totalwithvat / ((vat / 100) + 1);
+    var vatValue = totalwithvat - totalBeforeVat;
+
+    document.getElementById('totalBeforeVat').textContent = totalBeforeVat.toFixed(2);
+    document.getElementById('vatValue').textContent = vatValue.toFixed(2);
+});
+</script>
+
+</body>
 </html>
