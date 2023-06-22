@@ -5,60 +5,50 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
 
-    <title>Hello, world!</title>
+    <title>Reverse VAT Calculator</title>
 </head>
-<body>
+<body class="bg-gray-200">
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-8 col-sm-offset-2 well">
-            <div class="col-sm-12 form-legend">
-                <h2>Reverse Percentage Calculator</h2>
-            </div>
-            <div class="col-sm-12 form-column">
-                <form>
-                    <div class="form-group">
-                        <label for="totalwithpercent">Value with Percent</label>
-                        <input type="number" id="totalwithpercent" class="form-control" placeholder="Value with Percent"
-                               required>
-                    </div>
-                    <div class="form-group">
-                        <label for="percentage">Percentage</label>
-                        <input type="number" id="percentage" class="form-control" placeholder="25%" required>
+<div class="container mx-auto py-10 px-4 md:px-0 max-w-3xl">
+    <h2 class="text-3xl font-semibold mb-6">Reverse VAT Calculator</h2>
 
-                    </div>
-                    <input type="button" onclick="calcReversePercent();" value="Calculate" class="btn btn-primary">
-                </form>
-            </div>
-
-            <div class="col-sm-12d">
-
-                Value before Percentage: <span id="totalBeforePercent"></span><br >
-                Percentage Value: <span id="percentValue"></span><br >
-                Total Value: <span id="finalTotal"></span><br >
-
-            </div>
+    <form id="vatForm" class="bg-white p-6 rounded shadow-md">
+        <div class="mb-4">
+            <label for="totalwithvat" class="block mb-2 font-semibold">Value with VAT</label>
+            <input type="number" id="totalwithvat" class="form-input w-full px-3 py-2 rounded border focus:outline-none focus:border-blue-500" required>
         </div>
+
+        <div class="mb-4">
+            <label for="vat" class="block mb-2 font-semibold">VAT Percentage</label>
+            <input type="number" id="vat" class="form-input w-full px-3 py-2 rounded border focus:outline-none focus:border-blue-500" required>
+        </div>
+
+        <button type="submit" class="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600">Calculate</button>
+    </form>
+
+    <div class="mt-8 bg-white p-6 rounded shadow-md">
+        <p class="text-lg mb-2">Value before VAT: <span id="totalBeforeVat"></span></p>
+        <p class="text-lg">VAT Value: <span id="vatValue"></span></p>
     </div>
+</div>
 
+<script>
+document.getElementById('vatForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
+    var totalwithvat = document.getElementById('totalwithvat').value;
+    var vat = document.getElementById('vat').value;
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+    var totalBeforeVat = totalwithvat / ((vat / 100) + 1);
+    var vatValue = totalwithvat - totalBeforeVat;
 
-    <script src="assets/js/app.js"></script>
+    document.getElementById('totalBeforeVat').textContent = totalBeforeVat.toFixed(2);
+    document.getElementById('vatValue').textContent = vatValue.toFixed(2);
+});
+</script>
+
 </body>
 </html>
